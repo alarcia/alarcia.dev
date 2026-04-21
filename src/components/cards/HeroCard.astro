@@ -1,0 +1,69 @@
+---
+import BentoCard from "../BentoCard.astro";
+import siteData from "../../data/site.json";
+const { hero, labels } = siteData;
+
+interface Props {
+  delayIndex?: number;
+}
+const { delayIndex } = Astro.props;
+---
+
+<BentoCard delayIndex={delayIndex} className="hero-card">
+  <div class="content">
+    <div class="header">
+      <img 
+        src={hero.avatar} 
+        alt={`${hero.title} avatar`} 
+        class="avatar" 
+        width="64" 
+        height="64"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <h1 class="title">{hero.title}</h1>
+    </div>
+    <p class="subtitle">{hero.subtitle}</p>
+    <p class="description text-secondary">{hero.description}</p>
+  </div>
+</BentoCard>
+
+<style>
+  .hero-card {
+    height: 100%;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .avatar {
+    width: 64px;
+    height: 64px;
+    background-color: var(--border-color);
+    border-radius: 50%;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .title {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .subtitle {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+  }
+  .description {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 95%;
+    text-wrap: pretty;
+  }
+</style>

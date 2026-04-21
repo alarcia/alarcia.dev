@@ -1,0 +1,44 @@
+---
+import BentoCard from '../BentoCard.astro';
+import projectData from '../../data/projects.json';
+import siteData from '../../data/site.json';
+const { recentContributions } = projectData;
+const { labels } = siteData;
+
+interface Props { delayIndex?: number; }
+const { delayIndex } = Astro.props;
+---
+<BentoCard delayIndex={delayIndex} className="recent-contributions">
+  {labels.recentContributions && labels.recentContributions.trim() !== "" && (
+    <h2 class="section-title">{labels.recentContributions}</h2>
+  )}
+  <ul class="timeline">
+    {recentContributions.map(contrib => (
+      <li class="timeline-item">
+        <span class="icon" aria-hidden="true">{contrib.icon}</span>
+        <a href={contrib.link} class="details">
+          <span class="project-name">{contrib.project}</span>
+          <span class="time text-secondary text-mono">{contrib.time}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</BentoCard>
+
+<style>
+  .timeline {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .timeline-item {
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .icon { flex-shrink: 0; font-size: 1.25rem; }
+  .details {
+    display: flex; flex-direction: column; text-decoration: none;
+    transition: opacity 0.15s ease;
+  }
+  .details:hover { opacity: 0.8; }
+  .project-name { font-weight: 500; color: var(--text-primary); }
+  .time { font-size: 0.75rem; }
+</style>

@@ -1,0 +1,71 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HeroCard from "../components/cards/HeroCard.astro";
+import ProjectsCard from "../components/cards/ProjectsCard.astro";
+import GithubActivityCard from "../components/cards/GithubActivityCard.astro";
+import ToolsAndToysCard from "../components/cards/ToolsAndToysCard.astro";
+import RecentContributionsCard from "../components/cards/RecentContributionsCard.astro";
+import TechStackCard from "../components/cards/TechStackCard.astro";
+import ContactLinksCard from "../components/cards/ContactLinksCard.astro";
+import site from "../data/site.json";
+---
+
+<Layout>
+  <main class="container">
+    <div class="bento-grid">
+      <div class="bento-col">
+        <HeroCard delayIndex={1} />
+        <ContactLinksCard delayIndex={4} />
+        <TechStackCard delayIndex={7} />
+      </div>
+      <div class="bento-col">
+        <ProjectsCard delayIndex={2} />
+        <ToolsAndToysCard delayIndex={5} />
+      </div>
+      <div class="bento-col">
+        <GithubActivityCard delayIndex={3} />
+        <RecentContributionsCard delayIndex={6} />
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+
+  .bento-grid {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  .bento-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .bento-grid {
+      flex-wrap: wrap;
+    }
+    .bento-col {
+      flex: 1 1 calc(50% - 12px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 24px;
+    }
+    .bento-col {
+      flex: 1 1 100%;
+    }
+  }
+</style>

@@ -1,0 +1,24 @@
+{
+  "hero": {
+    "title": "Javi Alarcia",
+    "subtitle": "Software Engineer",
+    "website": "alarcia.dev",
+    "avatar": "/logo.png",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod."
+  },
+  "contact": {
+    "email": "javi@alarcia.dev",
+    "github": "https://github.com/alarcia"
+  },
+  "labels": {
+    "projects": "",
+    "activity": "Activity",
+    "stack": "Stack",
+    "contact": "Contact",
+    "toolsAndToys": "TOOLS & TOYS",
+    "githubActivity": "Github contributions",
+    "recentContributions": "RECENT CONTRIBUTIONS",
+    "techStack": "",
+    "quickConnect": ""
+  }
+}

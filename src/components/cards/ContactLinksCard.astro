@@ -1,0 +1,114 @@
+---
+import BentoCard from "../BentoCard.astro";
+import siteData from "../../data/site.json";
+const { contact, labels } = siteData;
+
+interface Props {
+  delayIndex?: number;
+}
+const { delayIndex } = Astro.props;
+
+const githubHandle = contact.github.replace('https://github.com/', '@');
+---
+
+<BentoCard delayIndex={delayIndex} className="quick-connect">
+  {labels.quickConnect && labels.quickConnect.trim() !== "" && (
+    <h2 class="section-title">{labels.quickConnect}</h2>
+  )}
+  <div class="connect-list">
+    <button aria-label="Copy Email" title="Copy to clipboard" class="connect-item copy-email-btn" data-email={contact.email}>
+      <i class="fa-regular fa-envelope connect-icon"></i>
+      <span class="connect-label copy-label">{contact.email}</span>
+      <i class="fa-regular fa-copy copy-hint-icon"></i>
+    </button>
+    <a href={contact.github} aria-label="GitHub" class="connect-item" target="_blank" rel="noopener noreferrer">
+      <i class="fa-brands fa-github connect-icon"></i>
+      <span class="connect-label">{githubHandle}</span>
+    </a>
+  </div>
+</BentoCard>
+
+<script>
+  const buttons = document.querySelectorAll('.copy-email-btn');
+  
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const email = button.getAttribute('data-email');
+      if (email) {
+        navigator.clipboard.writeText(email).then(() => {
+          const label = button.querySelector('.copy-label');
+          if (label) {
+            const originalText = label.textContent;
+            label.textContent = "Copied to clipboard!";
+            setTimeout(() => {
+              label.textContent = originalText;
+            }, 2000);
+          }
+        });
+      }
+    });
+  });
+</script>
+
+<style>
+  .connect-list {
+    display: block;
+    width: 100%;
+  }
+  .connect-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 16px;
+    padding-bottom: 20px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    background: transparent;
+    border: none;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    appearance: none;
+    box-shadow: none;
+    outline: none;
+  }
+  .connect-item:last-child {
+    padding-bottom: 8px;
+  }
+  .connect-item:hover {
+    opacity: 0.7;
+    transform: translateX(4px);
+  }
+  .connect-icon {
+    font-size: 22px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+  }
+  .connect-label {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1;
+    transform: translateY(1px);
+  }
+  .copy-hint-icon {
+    opacity: 0;
+    font-size: 14px;
+    margin-left: 4px;
+    color: var(--text-secondary);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateX(-4px);
+  }
+  .connect-item:hover .copy-hint-icon {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>

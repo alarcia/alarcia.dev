@@ -1,0 +1,19 @@
+{
+  "name": "alarcia-dev",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.2.0",
+    "astro": "^6.1.8",
+    "astro-icon": "^1.1.5",
+    "devicon": "^2.17.0",
+    "typescript": "^5.9.3"
+  }
+}

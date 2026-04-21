@@ -1,0 +1,117 @@
+---
+import BentoCard from '../BentoCard.astro';
+import techStack from '../../data/techstack.json';
+import siteData from '../../data/site.json';
+const { labels } = siteData;
+
+interface Props { delayIndex?: number; }
+const { delayIndex } = Astro.props;
+---
+<BentoCard delayIndex={delayIndex} className="tech-stack">
+  {labels.techStack && labels.techStack.trim() !== "" && (
+    <h2 class="section-title" id="stack">{labels.techStack}</h2>
+  )}
+  <div class="grid">
+    {techStack.map(tech => (
+      <a href={tech.link} target="_blank" rel="noopener noreferrer" class="tech-item" title={tech.name}>
+        <div class="tech-icon-wrapper">
+          <img 
+            src={`https://go-skill-icons.vercel.app/api/icons?i=${tech.icon}&theme=light`} 
+            alt={tech.name}
+            loading="lazy"
+            width="40"
+            height="40"
+          />
+        </div>
+        <span class="tech-name">{tech.name}</span>
+      </a>
+    ))}
+  </div>
+</BentoCard>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    padding: 0.5rem 0;
+  }
+
+  .tech-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .tech-item:hover {
+    transform: translateY(-4px);
+  }
+
+  .tech-icon-wrapper {
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+
+  .tech-icon-wrapper img {
+    width: 2.25rem;
+    height: 2.25rem;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+
+  .tech-item:hover .tech-icon-wrapper {
+    background: var(--bg-card);
+    border-color: var(--text-primary);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  }
+
+  .tech-item:hover .tech-icon-wrapper img {
+    transform: scale(1.1);
+  }
+
+  .tech-name {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tech-item:hover .tech-name {
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 640px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .tech-icon-wrapper {
+      width: 3rem;
+      height: 3rem;
+    }
+    .tech-icon-wrapper img {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+  }
+</style>

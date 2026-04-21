@@ -1,0 +1,52 @@
+---
+import BentoCard from '../BentoCard.astro';
+import projectData from '../../data/projects.json';
+import siteData from '../../data/site.json';
+const { projects } = projectData;
+const { labels } = siteData;
+
+interface Props { delayIndex?: number; }
+const { delayIndex } = Astro.props;
+---
+<BentoCard delayIndex={delayIndex} className="projects-card">
+  {labels.projects && labels.projects.trim() !== "" && (
+    <h2 class="section-title" id="projects">{labels.projects}</h2>
+  )}
+  <div class="projects-list">
+    {projects.map(project => (
+      <a href={project.link} class="project-item">
+        <div class="project-header">
+          <h3 class="project-title">{project.title}</h3>
+          <div class="tags">
+            {project.tags.map(tag => (
+              <span class="tag text-mono" style={`background: ${tag.bg}; color: ${tag.text};`}>{tag.name}</span>
+            ))}
+          </div>
+        </div>
+        <p class="project-description text-secondary">{project.description}</p>
+        <div class="project-footer text-mono text-secondary">
+          <span class="stat" aria-label={`${project.stars} stars`}>★ {project.stars}</span>
+          <span class="stat" aria-label={`${project.forks} forks`}>⑂ {project.forks}</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</BentoCard>
+
+<style>
+  .projects-list { display: flex; flex-direction: column; gap: 24px; }
+  .project-item {
+    display: flex; flex-direction: column; gap: 8px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+    transition: opacity 0.15s ease-in-out;
+  }
+  .project-item:hover { opacity: 0.8; }
+  .project-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .project-header { display: flex; justify-content: space-between; align-items: center; }
+  .project-title { font-size: 1.125rem; font-weight: 700; margin: 0; }
+  .tags { display: flex; gap: 8px; }
+  .tag { font-size: 0.75rem; padding: 4px 8px; border-radius: 999px; font-weight: 500; }
+  .project-description { font-size: 0.875rem; margin: 0; line-height: 1.5; }
+  .project-footer { display: flex; gap: 16px; font-size: 0.875rem; }
+</style>
