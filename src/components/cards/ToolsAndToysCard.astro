@@ -14,37 +14,71 @@ const { delayIndex } = Astro.props;
   )}
   <div class="list">
     {toolsAndToys.map(item => (
-      <a href={item.link} class="item">
-        <div class="icon" aria-hidden="true">{item.icon}</div>
+      <div class="item">
+        {item.icon && (
+          <div class="icon" aria-hidden="true">{item.icon}</div>
+        )}
         <div class="info">
           <div class="header">
             <h3 class="title">{item.title}</h3>
             {item.type && <span class={`badge ${item.type}`}>{item.type}</span>}
           </div>
           <p class="description text-secondary">{item.description}</p>
+          {item.links && item.links.length > 0 && (
+            <div class="links">
+              {item.links.map(link => (
+                <a href={link.url} target="_blank" rel="noopener noreferrer" class="link-badge text-mono">
+                  {link.name}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
-      </a>
+      </div>
     ))}
   </div>
 </BentoCard>
 
 <style>
-  .list { display: flex; flex-direction: column; gap: 16px; }
+  .list { display: flex; flex-direction: column; gap: 24px; }
   .item {
     display: flex; gap: 16px; align-items: center;
     transition: opacity 0.15s ease-in-out;
   }
-  .item:hover { opacity: 0.8; }
+  .item:hover { opacity: 0.9; }
+
   .icon {
     font-size: 1.5rem;
     display: flex; align-items: center; justify-content: center;
     width: 48px; height: 48px; background: var(--bg-app);
     border-radius: 12px; flex-shrink: 0;
   }
-  .header { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+  
+  .header { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; padding-top: 2px; }
   .title { font-size: 1rem; font-weight: 700; margin: 0; }
   .description { font-size: 0.875rem; margin: 0; line-height: 1.4; }
   
+  .links { 
+    display: flex; 
+    gap: 8px; 
+    margin-top: 8px; 
+  }
+  
+  .link-badge {
+    font-size: 0.75rem;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #dbeafe;
+    color: #1e40af;
+    transition: background-color 0.2s ease;
+  }
+  
+  .link-badge:hover { 
+    background: #bfdbfe;
+  }
+
   .badge {
     font-size: 0.65rem; text-transform: uppercase; font-weight: 700;
     padding: 2px 6px; border-radius: 4px; letter-spacing: 0.02em;

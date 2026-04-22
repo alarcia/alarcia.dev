@@ -1,70 +1,77 @@
 {
   "projects": [
     {
-      "id": "project-alpha",
-      "title": "Project Alpha",
-      "description": "High-performance data aggregation platform that cuts processing time by 80%.",
+      "id": "alarcia.dev",
+      "icon": "🍱",
+      "title": "alarcia.dev",
+      "description": "High-Performance, Data-Driven, Minimalist Bento Portfolio",
       "tags": [
-        { "name": "Rust", "bg": "#FFEDD5", "text": "#9A3412" }
+        {
+          "name": "Astro",
+          "bg": "#8F0595",
+          "text": "#FFFFFF"
+        }
       ],
-      "stars": 128,
-      "forks": 34,
-      "link": "#"
+      "links": [
+        {
+          "name": "GitHub",
+          "url": "https://github.com/alarcia/alarcia.dev"
+        },
+        {
+          "name": "Website",
+          "url": "https://alarcia.dev"
+        }
+      ]
     },
     {
-      "id": "project-beta",
-      "title": "Project Beta",
-      "description": "A distributed task queue reducing deployment friction for microservices.",
+      "id": "illa-notifier",
+      "icon": "🍿",
+      "title": "Illa Notifier",
+      "description": "Telegram notification system monitoring Illa Carlemany cinema releases.",
       "tags": [
-        { "name": "Go", "bg": "#D1FAE5", "text": "#065F46" }
+        {
+          "name": "Python",
+          "bg": "#D1FAE5",
+          "text": "#065F46"
+        }
       ],
-      "stars": 245,
-      "forks": 12,
-      "link": "#"
-    },
-    {
-      "id": "project-gamma",
-      "title": "Project Gamma",
-      "description": "API Gateway tailored for AI applications with intelligent load routing.",
-      "tags": [
-        { "name": "Python", "bg": "#DBEAFE", "text": "#1E40AF" }
-      ],
-      "stars": 89,
-      "forks": 5,
-      "link": "#"
+      "links": [
+        {
+          "name": "GitHub",
+          "url": "https://github.com/alarcia/illa-notifier"
+        },
+        {
+          "name": "Telegram",
+          "url": "https://t.me/cartelera_illa"
+        }
+      ]
     }
   ],
   "toolsAndToys": [
     {
-      "id": "tool-1",
-      "icon": "⚡",
-      "title": "FastCache",
-      "description": "An experimental cache layer built on edge functions.",
-      "link": "#",
+      "id": "java-evolution-labs",
+      "icon": "☕",
+      "title": "Java Evolution Labs",
+      "description": "Collection of micro-labs demonstrating the evolution of the Java language.",
+      "links": [
+        {
+          "name": "GitHub",
+          "url": "https://github.com/alarcia/java-evolution-labs"
+        }
+      ],
       "type": "tool"
     },
     {
-      "id": "toy-1",
-      "icon": "🕹️",
-      "title": "Bento Quest",
-      "description": "A tiny RPG aventura made in an afternoon to test grid mechanics.",
-      "link": "#",
-      "type": "toy"
-    },
-    {
-      "id": "tool-2",
-      "icon": "🛡️",
-      "title": "AuthGuard",
-      "description": "Zero-trust proxy middleware.",
-      "link": "#",
-      "type": "tool"
-    },
-    {
-      "id": "toy-2",
-      "icon": "🎨",
-      "title": "Color Blender",
-      "description": "Stupidly simple tool to mix HSL colors for bento designs.",
-      "link": "#",
+      "id": "8-puzzle-asm",
+      "icon": "🧩",
+      "title": "8 puzzle ASM",
+      "description": "8 puzzle game made in assembly.",
+      "links": [
+        {
+          "name": "GitHub",
+          "url": "https://github.com/alarcia/8-puzzle-asm"
+        }
+      ],
       "type": "toy"
     }
   ],
@@ -73,19 +80,34 @@
       "project": "rust-lang/cargo",
       "time": "2 days ago",
       "icon": "📦",
-      "link": "#"
+      "links": [
+        {
+          "name": "PR",
+          "url": "#"
+        }
+      ]
     },
     {
       "project": "kubernetes/kubernetes",
       "time": "1 week ago",
       "icon": "☸️",
-      "link": "#"
+      "links": [
+        {
+          "name": "Issue",
+          "url": "#"
+        }
+      ]
     },
     {
       "project": "DefinitelyTyped",
       "time": "2 weeks ago",
       "icon": "📘",
-      "link": "#"
+      "links": [
+        {
+          "name": "PR",
+          "url": "#"
+        }
+      ]
     }
   ]
 }
