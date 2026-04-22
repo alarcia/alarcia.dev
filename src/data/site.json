@@ -11,13 +11,13 @@
     "github": "https://github.com/alarcia"
   },
   "labels": {
-    "projects": "",
+    "projects": "Projects",
     "activity": "Activity",
     "stack": "Stack",
     "contact": "Contact",
     "toolsAndToys": "TOOLS & TOYS",
-    "githubActivity": "Github contributions",
-    "recentContributions": "RECENT CONTRIBUTIONS",
+    "githubActivity": "Contributions",
+    "recentActivity": "Activity",
     "techStack": "",
     "quickConnect": ""
   }

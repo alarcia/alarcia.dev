@@ -4,7 +4,7 @@
       "id": "alarcia.dev",
       "icon": "🍱",
       "title": "alarcia.dev",
-      "description": "High-Performance, Data-Driven, Minimalist Bento Portfolio",
+      "description": "High-Performance, Data-Driven, Minimalist Bento Portfolio.",
       "tags": [
         {
           "name": "Astro",
@@ -18,7 +18,7 @@
           "url": "https://github.com/alarcia/alarcia.dev"
         },
         {
-          "name": "Website",
+          "name": "alarcia.dev",
           "url": "https://alarcia.dev"
         }
       ]
@@ -41,7 +41,7 @@
           "url": "https://github.com/alarcia/illa-notifier"
         },
         {
-          "name": "Telegram",
+          "name": "t.me/cartelera_illa",
           "url": "https://t.me/cartelera_illa"
         }
       ]
