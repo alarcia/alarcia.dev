@@ -1,0 +1,77 @@
+---
+import BentoCard from "../BentoCard.astro";
+import siteData from "../../data/site.json";
+
+const { status, labels } = siteData;
+
+interface Props {
+  delayIndex?: number;
+}
+const { delayIndex } = Astro.props;
+---
+
+<BentoCard delayIndex={delayIndex} className="status-card">
+  {
+    labels.status && labels.status.trim() !== "" && (
+      <h2 class="section-title" id="status">
+        {labels.status}
+      </h2>
+    )
+  }
+  <div class="status-content">
+    <p class="status-text text-primary">"{status.text}"</p>
+    {
+      status.tags && status.tags.length > 0 && (
+        <div class="status-tags">
+          {status.tags.map((tag) => (
+            <span
+              class="tag text-mono"
+              style={`background: ${tag.bg}; color: ${tag.text};`}
+            >
+              {tag.name}
+            </span>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</BentoCard>
+
+<style>
+  .status-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 8px;
+  }
+
+  .status-icon {
+    color: var(--text-secondary);
+    opacity: 0.8;
+  }
+
+  .status-text {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    font-weight: 500;
+    margin: 0;
+    font-style: italic;
+  }
+
+  .status-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+</style>

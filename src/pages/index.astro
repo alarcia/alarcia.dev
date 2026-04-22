@@ -7,7 +7,7 @@ import ToolsAndToysCard from "../components/cards/ToolsAndToysCard.astro";
 import RecentContributionsCard from "../components/cards/RecentContributionsCard.astro";
 import TechStackCard from "../components/cards/TechStackCard.astro";
 import ContactLinksCard from "../components/cards/ContactLinksCard.astro";
-import site from "../data/site.json";
+import StatusCard from "../components/cards/StatusCard.astro";
 ---
 
 <Layout>
@@ -20,11 +20,12 @@ import site from "../data/site.json";
       </div>
       <div class="bento-col">
         <ProjectsCard delayIndex={2} />
-        <ToolsAndToysCard delayIndex={5} />
+        <ToolsAndToysCard delayIndex={8} />
       </div>
       <div class="bento-col">
-        <GithubActivityCard delayIndex={3} />
+        <GithubActivityCard delayIndex={1} />
         <RecentContributionsCard delayIndex={6} />
+        <StatusCard delayIndex={9} />
       </div>
     </div>
   </main>

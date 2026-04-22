@@ -19,6 +19,27 @@
     "githubActivity": "Contributions",
     "recentActivity": "Activity",
     "techStack": "",
-    "quickConnect": ""
+    "quickConnect": "",
+    "status": "Status"
+  },
+  "status": {
+    "text": "Focused on building my personal website.",
+    "tags": [
+      {
+        "name": "Antigravity",
+        "bg": "#4285F4",
+        "text": "#FFFFFF"
+      },
+      {
+        "name": "Astro",
+        "bg": "#8F0595",
+        "text": "#FFFFFF"
+      },
+      {
+        "name": "Gemini",
+        "bg": "#078EFA",
+        "text": "#FFFFFF"
+      }
+    ]
   }
 }
