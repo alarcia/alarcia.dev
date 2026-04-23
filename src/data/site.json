@@ -22,8 +22,13 @@
     "quickConnect": "",
     "status": "Status"
   },
+  "statusSource": {
+    "gistOwner": "alarcia",
+    "gistId": "1486cb5225e1a4c3ef6e31844f45f5af",
+    "gistFileName": "alarcia.dev_status.json"
+  },
   "status": {
-    "text": "Focused on building my personal website.",
+    "text": "Focused on building my bento website.",
     "tags": [
       {
         "name": "Antigravity",
