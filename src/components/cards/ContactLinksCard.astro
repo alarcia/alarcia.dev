@@ -9,6 +9,7 @@ interface Props {
 const { delayIndex } = Astro.props;
 
 const githubHandle = contact.github.replace('https://github.com/', '@');
+const cvUrl = contact.cv ?? '/resume.pdf';
 ---
 
 <BentoCard delayIndex={delayIndex} className="quick-connect">
@@ -24,6 +25,12 @@ const githubHandle = contact.github.replace('https://github.com/', '@');
     <a href={contact.github} aria-label="GitHub" class="connect-item" target="_blank" rel="noopener noreferrer">
       <i class="fa-brands fa-github connect-icon"></i>
       <span class="connect-label">{githubHandle}</span>
+      <i class="fas fa-external-link-alt link-hint-icon"></i>
+    </a>
+    <a href={cvUrl} aria-label="CV" class="connect-item cv-link" target="_blank" rel="noopener noreferrer">
+      <i class="fa-solid fa-file-pdf connect-icon"></i>
+      <span class="connect-label">{contact.resume}</span>
+      <i class="fas fa-external-link-alt link-hint-icon"></i>
     </a>
   </div>
 </BentoCard>
@@ -108,6 +115,18 @@ const githubHandle = contact.github.replace('https://github.com/', '@');
     transform: translateX(-4px);
   }
   .connect-item:hover .copy-hint-icon {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .link-hint-icon {
+    opacity: 0;
+    font-size: 14px;
+    margin-left: 4px;
+    color: var(--text-secondary);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateX(-4px);
+  }
+  .connect-item:hover .link-hint-icon {
     opacity: 1;
     transform: translateX(0);
   }
