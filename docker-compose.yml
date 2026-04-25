@@ -1,0 +1,16 @@
+services:
+  web:
+    container_name: alarcia-dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+      secrets:
+        - github_token
+    image: alarcia-dev:latest
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+secrets:
+  github_token:
+    environment: GITHUB_TOKEN

@@ -1,0 +1,10 @@
+node_modules
+dist
+.astro
+.git
+.github
+.vscode
+npm-cache
+Dockerfile
+docker-compose.yml
+README.md
