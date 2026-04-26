@@ -119,11 +119,6 @@ const { delayIndex } = Astro.props;
       const response = await fetch(url.toString(), {
         signal: controller.signal,
         cache: "no-store",
-        headers: {
-          Accept: "application/json",
-          "Cache-Control": "no-cache, no-store, max-age=0",
-          Pragma: "no-cache",
-        },
       });
 
       if (!response.ok) return;

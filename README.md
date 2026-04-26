@@ -64,8 +64,6 @@ The following milestones are prioritized for the upcoming production release:
 
 - **Localization**: Adding support to switch the interface to Spanish.
 - **Dark Mode Toggle**: Implementing a user-facing switch for light and dark themes.
-- **Containerization**: Finalizing `Dockerfile` and `docker-compose.yml` for self-hosted environments.
-- **Domain Deployment**: Final DNS configuration and SSL certification for `alarcia.dev`.
 
 ---
 
