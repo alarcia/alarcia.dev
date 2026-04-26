@@ -108,14 +108,21 @@ const { delayIndex } = Astro.props;
   const fetchStatusFromGist = async () => {
     if (!textElement || !tagsContainer || !gistRawUrl) return;
 
+    const url = new URL(gistRawUrl);
+    // Force a fresh read on every page load for this dynamic status payload.
+    url.searchParams.set("_", Date.now().toString());
+
     const controller = new AbortController();
     const timeoutId = window.setTimeout(() => controller.abort(), 3500);
 
     try {
-      const response = await fetch(gistRawUrl, {
+      const response = await fetch(url.toString(), {
         signal: controller.signal,
+        cache: "no-store",
         headers: {
           Accept: "application/json",
+          "Cache-Control": "no-cache, no-store, max-age=0",
+          Pragma: "no-cache",
         },
       });
 
