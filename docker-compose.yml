@@ -9,17 +9,8 @@ services:
     image: alarcia-dev:latest
     ports:
       - "3001:80"
-    labels:
-      caddy: app.example.com
-      caddy.reverse_proxy: "{{upstreams 80}}"
-    networks:
-      - nexus_net
     restart: unless-stopped
 
 secrets:
   gh_token:
     environment: GITHUB_TOKEN
-
-networks:
-  nexus_net:
-    external: true
