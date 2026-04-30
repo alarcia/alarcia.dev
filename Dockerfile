@@ -13,7 +13,7 @@ COPY . .
 RUN --mount=type=secret,id=gh_token \
   GITHUB_TOKEN="$(cat /run/secrets/gh_token 2>/dev/null || true)" npm run build
 
-FROM nginx:1.27-alpine AS runtime
+FROM nginx:1.29-alpine AS runtime
 WORKDIR /usr/share/nginx/html
 
 COPY --from=builder /app/dist ./
