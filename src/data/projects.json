@@ -19,6 +19,7 @@
         }
       ]
     },
+    
     {
       "id": "illa-notifier",
       "icon": "🍿",
@@ -44,6 +45,19 @@
     }
   ],
   "toolsAndToys": [
+    {
+      "id": "jumpstart.md",
+      "icon": "🚀",
+      "title": "jumpstart.md",
+      "description": "Single-file, agent-driven project starter: a structured checklist that guides decisions on stack, infra, docs, and launch.",
+      "links": [
+        {
+          "name": "GitHub",
+          "url": "https://github.com/alarcia/jumpstart.md"
+        }
+      ],
+      "type": "tool"
+    },
     {
       "id": "java-evolution-labs",
       "icon": "☕",
