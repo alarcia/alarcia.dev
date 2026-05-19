@@ -3,32 +3,17 @@ import BentoCard from "../BentoCard.astro";
 import siteData from "../../data/site.json";
 
 const { labels } = siteData;
-const username = "alarcia";
 
-// Fetch GitHub Stats with fallbacks
-let githubStats = {
-  contributions: "100",
-  repositories: "10",
+// GitHub username extracted from site data
+const githubUser = siteData.contact?.github
+  ? new URL(siteData.contact.github).pathname.replace(/^\//, '').replace(/\/$/, '')
+  : 'alarcia';
+
+// Static fallbacks shown before the client-side fetch completes
+const fallbackStats = {
+  contributions: "—",
+  repositories: "—",
 };
-
-try {
-  const [userRes, contribRes] = await Promise.all([
-    fetch(`https://api.github.com/users/${username}`),
-    fetch(`https://github-contributions-api.deno.dev/${username}.json`),
-  ]);
-
-  if (userRes.ok) {
-    const userData = await userRes.json();
-    githubStats.repositories = userData.public_repos;
-  }
-
-  if (contribRes.ok) {
-    const contribData = await contribRes.json();
-    githubStats.contributions = contribData.totalContributions;
-  }
-} catch (e) {
-  console.error("Error fetching GitHub stats:", e);
-}
 
 interface Props {
   delayIndex?: number;
@@ -65,15 +50,56 @@ const { delayIndex } = Astro.props;
 
   <div class="stats-grid">
     <div class="stat-item">
-      <span class="stat-value text-mono">{githubStats.contributions}</span>
+      <span class="stat-value text-mono" data-stat-contributions>{fallbackStats.contributions}</span>
       <span class="stat-label text-secondary">Contributions</span>
     </div>
     <div class="stat-item">
-      <span class="stat-value text-mono">{githubStats.repositories}</span>
+      <span class="stat-value text-mono" data-stat-repositories>{fallbackStats.repositories}</span>
       <span class="stat-label text-secondary">Repositories</span>
     </div>
   </div>
 </BentoCard>
+
+<script define:vars={{ githubUser }}>
+  const contribEl = document.querySelector('.github-activity [data-stat-contributions]');
+  const reposEl = document.querySelector('.github-activity [data-stat-repositories]');
+
+  const fetchGithubStats = async () => {
+    if (!contribEl || !reposEl) return;
+
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 5000);
+
+    try {
+      const [userRes, contribRes] = await Promise.all([
+        fetch(`https://api.github.com/users/${githubUser}`, {
+          signal: controller.signal,
+          cache: 'no-store',
+        }),
+        fetch(`https://github-contributions-api.deno.dev/${githubUser}.json`, {
+          signal: controller.signal,
+          cache: 'no-store',
+        }),
+      ]);
+
+      if (userRes.ok) {
+        const userData = await userRes.json();
+        reposEl.textContent = userData.public_repos;
+      }
+
+      if (contribRes.ok) {
+        const contribData = await contribRes.json();
+        contribEl.textContent = contribData.totalContributions;
+      }
+    } catch {
+      // Keep fallback values on error
+    } finally {
+      window.clearTimeout(timeoutId);
+    }
+  };
+
+  fetchGithubStats();
+</script>
 
 <style>
   .activity-graph-container {

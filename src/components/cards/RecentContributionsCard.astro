@@ -7,107 +7,148 @@ const { labels } = siteData;
 interface Props { delayIndex?: number; }
 const { delayIndex } = Astro.props;
 
-let recentCommits: any[] = [];
-
-try {
-  const headers: HeadersInit = { 'User-Agent': 'alarcia.dev-portfolio' };
-  
-  // Use a GitHub token if available to avoid rate limits during development
-  if (import.meta.env.GITHUB_TOKEN) {
-    headers['Authorization'] = `Bearer ${import.meta.env.GITHUB_TOKEN}`;
-  }
-
-  // Fetch public events from your GitHub account
-  const response = await fetch('https://api.github.com/users/alarcia/events/public', { headers });
-  
-  if (response.ok) {
-    const events = await response.json();
-    
-    // Filter out only PushEvents (commits)
-    const pushes = events.filter((e: any) => e.type === 'PushEvent');
-    
-    const emojis = ['🚀', '✨', '🔥', '💻', '🛠️', '⚡️', '🌟', '🔮', '🔨'];
-    
-    // Get unique repositories from the latest pushes, up to 4
-    const uniqueRepos = new Set();
-    for (const event of pushes) {
-      if (!uniqueRepos.has(event.repo.name) && recentCommits.length < 4) {
-        uniqueRepos.add(event.repo.name);
-        const randomIcon = emojis[Math.floor(Math.random() * emojis.length)];
-        recentCommits.push({
-          project: event.repo.name,
-          time: event.created_at,
-          url: `https://github.com/${event.repo.name}`,
-          icon: randomIcon
-        });
-      }
-    }
-  } else if (response.status === 403) {
-    console.warn("GitHub API rate limit exceeded. Showing cached/fallback data.");
-    // Fallback data when rate limited (very common during 'npm run dev' hot reloads)
-    recentCommits = [
-      { project: "alarcia/alarcia.dev", time: new Date().toISOString(), url: "https://github.com/alarcia/alarcia.dev", icon: '🚀' },
-      { project: "alarcia/illa-notifier", time: new Date(Date.now() - 86400000).toISOString(), url: "https://github.com/alarcia/illa-notifier", icon: '🔥' }
-    ];
-  }
-} catch (e) {
-  console.error("Error fetching GitHub events", e);
-}
+// GitHub username extracted from site data for the client-side fetch
+const githubUser = siteData.contact?.github
+  ? new URL(siteData.contact.github).pathname.replace(/^\//, '').replace(/\/$/, '')
+  : 'alarcia';
 ---
 <BentoCard delayIndex={delayIndex} className="recent-contributions">
   {labels.recentActivity && labels.recentActivity.trim() !== "" && (
     <h2 class="section-title">{labels.recentActivity}</h2>
   )}
-  <ul class="timeline">
-    {recentCommits.length > 0 ? recentCommits.map(contrib => (
-      <li class="timeline-item">
-        <div class="icon" aria-hidden="true">{contrib.icon}</div>
+  <ul class="timeline" data-contributions-list>
+    {/* Skeleton items rendered at build time; replaced by real data on the client */}
+    {[0, 1, 2, 3].map(() => (
+      <li class="timeline-item skeleton-item">
+        <div class="icon skeleton-block" aria-hidden="true">&nbsp;</div>
         <div class="details">
           <div class="details-header">
-            <a href={contrib.url} target="_blank" rel="noopener noreferrer" class="project-name-link">
-              {contrib.project.split('/')[1] || contrib.project}
-            </a>
-            <span class="time text-secondary text-mono relative-time" data-date={contrib.time}>
-              {new Date(contrib.time).toLocaleDateString()}
-            </span>
+            <span class="skeleton-block skeleton-text-wide">&nbsp;</span>
+            <span class="skeleton-block skeleton-text-narrow">&nbsp;</span>
           </div>
         </div>
       </li>
-    )) : (
-      <li class="timeline-item">
-        <div class="details">
-          <span class="text-secondary text-mono">No recent activity found.</span>
-        </div>
-      </li>
-    )}
+    ))}
   </ul>
 </BentoCard>
 
-<script>
-  // Format dates relative to now on the client side to avoid build-time freezing
-  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
-  
-  document.querySelectorAll('.relative-time').forEach(el => {
-    const dateStr = el.getAttribute('data-date');
-    if (dateStr) {
-      const date = new Date(dateStr);
-      const now = new Date();
-      const diffMs = date.getTime() - now.getTime();
+<script define:vars={{ githubUser }}>
+  const list = document.querySelector('.recent-contributions [data-contributions-list]');
+  if (list) {
+    const emojis = ['🚀', '✨', '🔥', '💻', '🛠️', '⚡️', '🌟', '🔮', '🔨'];
+
+    const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+
+    const relativeTime = (isoDate) => {
+      const diffMs = new Date(isoDate).getTime() - Date.now();
       const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
-      
       if (diffDays === 0) {
         const diffHours = Math.round(diffMs / (1000 * 60 * 60));
         if (diffHours === 0) {
           const diffMins = Math.round(diffMs / (1000 * 60));
-          el.textContent = rtf.format(diffMins, 'minute');
-        } else {
-          el.textContent = rtf.format(diffHours, 'hour');
+          return rtf.format(diffMins, 'minute');
         }
-      } else {
-        el.textContent = rtf.format(diffDays, 'day');
+        return rtf.format(diffHours, 'hour');
       }
-    }
-  });
+      return rtf.format(diffDays, 'day');
+    };
+
+    const renderContributions = (items) => {
+      while (list.firstChild) list.removeChild(list.firstChild);
+
+      if (items.length === 0) {
+        const li = document.createElement('li');
+        li.className = 'timeline-item';
+        const details = document.createElement('div');
+        details.className = 'details';
+        const span = document.createElement('span');
+        span.className = 'text-secondary text-mono';
+        span.textContent = 'No recent activity found.';
+        details.appendChild(span);
+        li.appendChild(details);
+        list.appendChild(li);
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+      items.forEach((contrib) => {
+        const li = document.createElement('li');
+        li.className = 'timeline-item';
+
+        const icon = document.createElement('div');
+        icon.className = 'icon';
+        icon.setAttribute('aria-hidden', 'true');
+        icon.textContent = contrib.icon;
+
+        const details = document.createElement('div');
+        details.className = 'details';
+        const header = document.createElement('div');
+        header.className = 'details-header';
+
+        const link = document.createElement('a');
+        link.href = contrib.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.className = 'project-name-link';
+        link.textContent = contrib.project.split('/')[1] || contrib.project;
+
+        const time = document.createElement('span');
+        time.className = 'time text-secondary text-mono';
+        time.textContent = relativeTime(contrib.time);
+
+        header.appendChild(link);
+        header.appendChild(time);
+        details.appendChild(header);
+
+        li.appendChild(icon);
+        li.appendChild(details);
+        fragment.appendChild(li);
+      });
+      list.appendChild(fragment);
+    };
+
+    const fetchContributions = async () => {
+      const url = `https://api.github.com/users/${githubUser}/events/public`;
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), 5000);
+
+      try {
+        const response = await fetch(url, {
+          signal: controller.signal,
+          headers: { 'User-Agent': 'alarcia.dev-portfolio' },
+          cache: 'no-store',
+        });
+
+        if (!response.ok) return;
+
+        const events = await response.json();
+        const pushes = events.filter((e) => e.type === 'PushEvent');
+        const recentCommits = [];
+        const uniqueRepos = new Set();
+
+        for (const event of pushes) {
+          if (!uniqueRepos.has(event.repo.name) && recentCommits.length < 4) {
+            uniqueRepos.add(event.repo.name);
+            recentCommits.push({
+              project: event.repo.name,
+              time: event.created_at,
+              url: `https://github.com/${event.repo.name}`,
+              icon: emojis[Math.floor(Math.random() * emojis.length)],
+            });
+          }
+        }
+
+        renderContributions(recentCommits);
+      } catch {
+        // If fetch fails, remove skeletons and show empty state
+        renderContributions([]);
+      } finally {
+        window.clearTimeout(timeoutId);
+      }
+    };
+
+    fetchContributions();
+  }
 </script>
 
 <style>
@@ -115,30 +156,55 @@ try {
     list-style: none; padding: 0; margin: 0;
     display: flex; flex-direction: column; gap: 24px;
   }
-  .timeline-item {
+  /* Elements below are created dynamically by client JS, so they need :global()
+     to bypass Astro's scoped attribute matching. Scoped under .timeline to avoid leaks. */
+  .timeline :global(.timeline-item) {
     display: flex; gap: 16px; align-items: center;
   }
-  .icon {
+  .timeline :global(.icon) {
     font-size: 1.5rem;
     display: flex; align-items: center; justify-content: center;
     width: 48px; height: 48px; background: var(--bg-app);
     border-radius: 12px; flex-shrink: 0;
   }
-  .details {
+  .timeline :global(.details) {
     display: flex; flex-direction: column; width: 100%;
   }
-  .details-header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .timeline :global(.details-header) { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
   
-  .project-name-link { 
+  .timeline :global(.project-name-link) { 
     font-weight: 500; 
     color: var(--text-primary); 
     text-decoration: none;
     transition: color 0.2s ease;
   }
   
-  .project-name-link:hover {
+  .timeline :global(.project-name-link:hover) {
     color: #3b82f6;
   }
   
-  .time { font-size: 0.75rem; }
+  .timeline :global(.time) { font-size: 0.75rem; }
+
+  /* Skeleton loading styles (server-rendered, but also need :global for consistency) */
+  .timeline :global(.skeleton-block) {
+    background: var(--bg-app);
+    border-radius: 8px;
+    animation: skeleton-pulse 1.2s ease-in-out infinite;
+  }
+  .timeline :global(.skeleton-text-wide) {
+    display: inline-block;
+    width: 120px;
+    height: 1em;
+    border-radius: 4px;
+  }
+  .timeline :global(.skeleton-text-narrow) {
+    display: inline-block;
+    width: 60px;
+    height: 0.75em;
+    border-radius: 4px;
+  }
+  @keyframes skeleton-pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.15; }
+  }
 </style>
