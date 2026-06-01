@@ -20,6 +20,11 @@
     "link": "https://astro.build/"
   },
   {
+    "name": "Next.js",
+    "icon": "nextjs",
+    "link": "https://nextjs.org/"
+  },
+  {
     "name": "Angular",
     "icon": "angular",
     "link": "https://angular.io/"
