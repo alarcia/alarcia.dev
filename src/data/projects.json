@@ -19,7 +19,6 @@
         }
       ]
     },
-    
     {
       "id": "illa-notifier",
       "icon": "🍿",
@@ -40,6 +39,25 @@
         {
           "name": "t.me/cartelera_illa",
           "url": "https://t.me/cartelera_illa"
+        }
+      ]
+    },
+    {
+      "id": "pandabeer.es",
+      "icon": "🍺",
+      "title": "pandabeer.es",
+      "description": "Content-first, high-performance frontend for a craft brewery.",
+      "tags": [
+        {
+          "name": "Next.js",
+          "bg": "#000000",
+          "text": "#FFFFFF"
+        }
+      ],
+      "links": [
+        {
+          "name": "GitHub",
+          "url": "https://github.com/alarcia/pandabeer.es"
         }
       ]
     }
