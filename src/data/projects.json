@@ -20,6 +20,25 @@
       ]
     },
     {
+      "id": "harvest",
+      "icon": "📦",
+      "title": "Harvest",
+      "description": "Parcel tracking calendar built from delivery notification emails.",
+      "tags": [
+        {
+          "name": "Django",
+          "bg": "#092E20",
+          "text": "#FFFFFF"
+        }
+      ],
+      "links": [
+        {
+          "name": "GitHub",
+          "url": "https://github.com/alarcia/harvest"
+        }
+      ]
+    },
+    {
       "id": "illa-notifier",
       "icon": "🍿",
       "title": "Illa Notifier",
