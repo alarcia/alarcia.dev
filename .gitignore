@@ -39,6 +39,7 @@ skills-lock.json
 
 # Custom
 prototypes/
+init
 
 # Agents
 AGENTS.md

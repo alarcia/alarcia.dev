@@ -83,6 +83,19 @@
   ],
   "toolsAndToys": [
     {
+      "id": "charger-watts",
+      "icon": "⚡",
+      "title": "Charger Watts",
+      "description": "Plug in your Mac and get a notification with the actual charging wattage.",
+      "links": [
+        {
+          "name": "GitHub",
+          "url": "https://github.com/alarcia/charger-watts"
+        }
+      ],
+      "type": "tool"
+    },
+    {
       "id": "jumpstart.md",
       "icon": "🚀",
       "title": "jumpstart.md",

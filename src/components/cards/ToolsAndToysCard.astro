@@ -40,35 +40,36 @@ const { delayIndex } = Astro.props;
 </BentoCard>
 
 <style>
-  .list { display: flex; flex-direction: column; gap: 24px; }
+  .list { display: flex; flex-direction: column; gap: 12px; }
   .item {
-    display: flex; gap: 16px; align-items: center;
+    display: flex; gap: 12px; align-items: flex-start;
     transition: opacity 0.15s ease-in-out;
   }
   .item:hover { opacity: 0.9; }
 
   .icon {
-    font-size: 1.5rem;
+    font-size: 1.15rem;
     display: flex; align-items: center; justify-content: center;
-    width: 48px; height: 48px; background: var(--bg-app);
-    border-radius: 12px; flex-shrink: 0;
+    width: 36px; height: 36px; background: var(--bg-app);
+    border-radius: 8px; flex-shrink: 0;
   }
   
-  .header { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; padding-top: 2px; }
-  .title { font-size: 1rem; font-weight: 700; margin: 0; }
-  .description { font-size: 0.875rem; margin: 0; line-height: 1.4; }
+  .info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .header { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+  .title { font-size: 0.9375rem; font-weight: 700; margin: 0; }
+  .description { font-size: 0.8125rem; margin: 0; line-height: 1.35; }
   
   .links { 
     display: flex; 
-    gap: 8px; 
-    margin-top: 8px; 
+    gap: 6px; 
+    margin-top: 4px; 
   }
   
   .link-badge {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-decoration: none;
     font-weight: 500;
-    padding: 4px 10px;
+    padding: 2px 8px;
     border-radius: 999px;
     background: #dbeafe;
     color: #1e40af;
@@ -80,8 +81,8 @@ const { delayIndex } = Astro.props;
   }
 
   .badge {
-    font-size: 0.65rem; text-transform: uppercase; font-weight: 700;
-    padding: 2px 6px; border-radius: 4px; letter-spacing: 0.02em;
+    font-size: 0.6rem; text-transform: uppercase; font-weight: 700;
+    padding: 1px 5px; border-radius: 4px; letter-spacing: 0.02em;
   }
   .badge.toy { background: #fee2e2; color: #991b1b; }
   .badge.tool { background: #f3f4f6; color: #374151; }

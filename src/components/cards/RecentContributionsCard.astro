@@ -122,7 +122,7 @@ const githubUser = siteData.contact?.github
         if (!response.ok) return;
 
         const events = await response.json();
-        const pushes = events.filter((e) => e.type === 'PushEvent');
+        const pushes = events.filter((e) => e.type === 'PushEvent' || e.type === 'CreateEvent');
         const recentCommits = [];
         const uniqueRepos = new Set();
 
