@@ -9,10 +9,54 @@ const githubUser = siteData.contact?.github
   ? new URL(siteData.contact.github).pathname.replace(/^\//, '').replace(/\/$/, '')
   : 'alarcia';
 
-// Static fallbacks shown before the client-side fetch completes
+// Build-time fetch using optional GITHUB_TOKEN secret (if available)
+const token = import.meta.env.GITHUB_TOKEN || process.env.GITHUB_TOKEN;
+
+let initialRepos = "—";
+let initialContributions = "—";
+
+if (token) {
+  try {
+    const res = await fetch("https://api.github.com/graphql", {
+      method: "POST",
+      headers: {
+        Authorization: `bearer ${token}`,
+        "Content-Type": "application/json",
+        "User-Agent": "alarcia.dev-portfolio",
+      },
+      body: JSON.stringify({
+        query: `
+          query {
+            user(login: "${githubUser}") {
+              contributionsCollection {
+                contributionCalendar {
+                  totalContributions
+                }
+              }
+              repositories(ownerAffiliations: OWNER) {
+                totalCount
+              }
+            }
+          }
+        `,
+      }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.data?.user) {
+        initialContributions = String(data.data.user.contributionsCollection.contributionCalendar.totalContributions);
+        initialRepos = String(data.data.user.repositories.totalCount);
+      }
+    }
+  } catch {
+    // Keep defaults on error
+  }
+}
+
+// Fallback / initial stats shown before client-side fetch completes
 const fallbackStats = {
-  contributions: "—",
-  repositories: "—",
+  contributions: initialContributions,
+  repositories: initialRepos,
 };
 
 interface Props {
@@ -76,7 +120,7 @@ const { delayIndex } = Astro.props;
           signal: controller.signal,
           cache: 'no-store',
         }),
-        fetch(`https://github-contributions-api.deno.dev/${githubUser}.json`, {
+        fetch(`https://github-contributions-api.jogruber.de/v4/${githubUser}?y=last`, {
           signal: controller.signal,
           cache: 'no-store',
         }),
@@ -89,7 +133,9 @@ const { delayIndex } = Astro.props;
 
       if (contribRes.ok) {
         const contribData = await contribRes.json();
-        contribEl.textContent = contribData.totalContributions;
+        if (contribData.total?.lastYear !== undefined) {
+          contribEl.textContent = contribData.total.lastYear;
+        }
       }
     } catch {
       // Keep fallback values on error
