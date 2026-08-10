@@ -30,6 +30,11 @@
     "link": "https://angular.io/"
   },
   {
+    "name": "Laravel",
+    "icon": "laravel",
+    "link": "https://laravel.com/"
+  },
+  {
     "name": "Oracle SQL",
     "icon": "oracle",
     "link": "https://www.oracle.com/"
